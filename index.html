@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Department Fest</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for custom font --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+            cursor: auto; 
+        }
+
+        .main-title-shadow {
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
+        }
+        
+        .register-button {
+            transition: all 0.15s ease-in-out;
+        }
+        
+        .event-card {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* --- Ambient Spotlight Background Effect (High Opacity) --- */
+        body {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+            
+            /* Increased opacity to 0.5 for a much stronger, more visible blue glow */
+            background: radial-gradient(
+                circle 900px at var(--mouse-x) var(--mouse-y),
+                rgba(66, 153, 225, 0.5) 0%, /* Significantly increased opacity to 0.5 */
+                rgba(255, 255, 255, 0) 70%   /* Adjusted fade out point */
+            ), #f9fafb; 
+            background-attachment: fixed; 
+            color: #1f2937; 
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            position: relative; /* Needed for absolute positioning of animation */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animation */
+        }
+
+        /* --- Digital Rain Animation (0s and 1s) --- */
+        .digital-rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Layer beneath all content */
+            overflow: hidden;
+            opacity: 0.15; /* REDUCED VISIBILITY HERE for softer contrast */
+            pointer-events: none;
+        }
+
+        .digital-column {
+            position: absolute;
+            white-space: pre; /* Preserve whitespace for column layout */
+            color: #4299e1; /* Blue color for the digits */
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        @keyframes rain {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* --- Custom Scrollbar Hide for Card Sections (Aesthetic) --- */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        /* Arrow button styling to prevent content from scrolling when clicking the button itself */
+        .scroll-arrow {
+            outline: none;
+            cursor: pointer;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen">
+
+    <!-- Digital Rain Container -->
+    <div class="digital-rain-container" id="digital-rain"></div>
+
+    <!-- Sticky Navigation Bar (Tabs) --><nav class="sticky top-0 z-20 bg-white shadow-xl border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- SRKIT Logo and Branding -->
+                <div class="flex items-center space-x-2">
+                    <!-- IMPORTANT: Replace the placeholder URL below with the actual SRKIT logo image URL -->
+                    <img src="https://srkit.in/images/flogo.png" alt="SRKIT Logo Placeholder" class="h-8 w-8 rounded-full border border-blue-600"/>
+                    <span class="text-lg font-extrabold text-gray-900 tracking-wide hidden sm:inline">SRKIT</span>
+                    <span class="text-lg font-bold text-blue-600 tracking-wider">| IT FEST</span>
+                </div>
+                
+                <!-- Navigation Links (Reduced size) -->
+                <div class="flex space-x-3 sm:space-x-4 md:space-x-6">
+                    <a href="#technical" class="text-sm text-gray-700 hover:text-blue-600 font-medium px-1 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-3">
+                        Technical
+                    </a>
+                    <a href="#non-technical" class="text-sm text-gray-700 hover:text-blue-600 font-medium px-1 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-3">
+                        Non-Technical
+                    </a>
+                    <a href="#contact" class="text-sm text-gray-700 hover:text-blue-600 font-medium px-1 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-3">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area --><div class="p-4 md:p-8 relative z-10">
+        <header class="text-center mb-16 mt-4 max-w-7xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 main-title-shadow">
+                Tech Fest 2K25
+            </h1>
+            <p class="mt-4 text-xl text-gray-700">Department of INFORMATION TECHNOLOGY welcomes you</p>
+        </header>
+
+        <!-- Main Content Grid --><main class="max-w-7xl mx-auto space-y-20">
+
+            <!-- Technical Events Section --><section id="technical" class="pt-4">
+                <div class="flex justify-center mb-10">
+                    <h2 class="inline-block text-xl sm:text-2xl font-extrabold text-blue-600 bg-white border border-blue-600 shadow-md px-8 py-3 rounded-full tracking-wider uppercase">
+                        Technical Events
+                    </h2>
+                </div>
+                
+                <!-- HORIZONTAL SCROLLABLE CONTAINER WRAPPER -->
+                <div class="relative">
+                    
+                    <!-- Left Scroll Button (Hidden on Mobile) -->
+                    <button id="technical-scroll-left" class="scroll-arrow absolute left-0 top-1/2 transform -translate-y-1/2 -ml-2 md:-ml-6 z-10 p-3 bg-white/70 rounded-full shadow-lg hover:bg-white transition duration-150 hidden md:block ring-2 ring-blue-600/30">
+                        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    
+                    <!-- Right Scroll Button (Hidden on Mobile) -->
+                    <button id="technical-scroll-right" class="scroll-arrow absolute right-0 top-1/2 transform -translate-y-1/2 -mr-2 md:-mr-6 z-10 p-3 bg-white/70 rounded-full shadow-lg hover:bg-white transition duration-150 hidden md:block ring-2 ring-blue-600/30">
+                        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+
+                    <!-- Actual Scrollable Event Container -->
+                    <div id="technical-events-container" class="flex space-x-6 overflow-x-auto pb-4 no-scrollbar scroll-smooth px-4 lg:justify-center">
+                        
+                        <!-- Event Card 1 -->
+                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
+                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Code Debugging Challenge</h3>
+                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Find the errors, fix the bugs, and race against the clock. Sharp analytical skills required!</p>
+                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
+                                Register
+                            </a>
+                        </div>
+
+                        <!-- Event Card 2 -->
+                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
+                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Web Design Hackathon</h3>
+                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">A 24-hour sprint to build a fully functional, aesthetic web application from scratch.</p>
+                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
+                                Register
+                            </a>
+                        </div>
+
+                        <!-- Event Card 3 -->
+                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
+                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">AI Quiz Bowl</h3>
+                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Test your knowledge on Machine Learning, Deep Learning, and current AI trends.</p>
+                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
+                                Register
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Non-Technical Events Section --><section id="non-technical" class="pt-4">
+                <div class="flex justify-center mb-10">
+                    <h2 class="inline-block text-xl sm:text-2xl font-extrabold text-blue-600 bg-white border border-blue-600 shadow-md px-8 py-3 rounded-full tracking-wider uppercase">
+                        Non-Technical Events
+                    </h2>
+                </div>
+                
+                <!-- HORIZONTAL SCROLLABLE CONTAINER WRAPPER -->
+                <div class="relative">
+                    
+                    <!-- Left Scroll Button (Hidden on Mobile) -->
+                    <button id="non-technical-scroll-left" class="scroll-arrow absolute left-0 top-1/2 transform -translate-y-1/2 -ml-2 md:-ml-6 z-10 p-3 bg-white/70 rounded-full shadow-lg hover:bg-white transition duration-150 hidden md:block ring-2 ring-blue-600/30">
+                        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    
+                    <!-- Right Scroll Button (Hidden on Mobile) -->
+                    <button id="non-technical-scroll-right" class="scroll-arrow absolute right-0 top-1/2 transform -translate-y-1/2 -mr-2 md:-mr-6 z-10 p-3 bg-white/70 rounded-full shadow-lg hover:bg-white transition duration-150 hidden md:block ring-2 ring-blue-600/30">
+                        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+
+                    <!-- Actual Scrollable Event Container -->
+                    <div id="non-technical-events-container" class="flex space-x-6 overflow-x-auto pb-4 no-scrollbar scroll-smooth px-4 lg:justify-center">
+                        
+                        <!-- Event Card 4 -->
+                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
+                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">E-Sports Gaming Tournament</h3>
+                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Compete in popular titles (e.g., Valorant/BGMI) for bragging rights and prizes.</p>
+                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
+                                Register
+                            </a>
+                        </div>
+
+                        <!-- Event Card 5 -->
+                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
+                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Campus Lens Photography</h3>
+                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Capture the spirit of the campus or fest. Open to all skill levels with any camera.</p>
+                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
+                                Register
+                            </a>
+                        </div>
+
+                        <!-- Event Card 6 -->
+                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
+                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
+                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Blind Coding Race</h3>
+                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Type code without looking at the screen. A test of pure muscle memory and logic!</p>
+                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
+                                Register
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Information Section --><section id="contact" class="mt-12 p-8 bg-white rounded-xl shadow-xl border border-gray-100">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Contact & Support</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-700">
+                    <div>
+                        <h3 class="font-semibold text-xl text-gray-900 mb-2">Fest Coordinator</h3>
+                        <p>Prof. xxxx</p>
+                        <p>IT Department, 'A' block 4th floor</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl text-gray-900 mb-2">Email Us</h3>
+                        <p>For event inquiries:</p>
+                        <a href="mailto:srk.itdept@gmail.com" class="text-gray-600 hover:text-blue-600 hover:underline font-mono">srk.itdept@gmail.com</a>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xl text-gray-900 mb-2">Call Support</h3>
+                        <p>Student Help Desk:</p>
+                        <p class="font-mono text-lg">xxxxxxx</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer --><footer class="text-center mt-12 py-6 border-t border-gray-300 bg-white relative z-10">
+        <p class="text-gray-600 text-sm">&copy; <span id="year"></span> IT Department Fest. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Set the current year in the footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // JavaScript for Ambient Spotlight Effect
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.body.style.setProperty('--mouse-x', `${x}%`);
+            document.body.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        // JavaScript for Digital Rain Animation
+        const container = document.getElementById('digital-rain');
+        const windowWidth = window.innerWidth; 
+        const windowHeight = window.innerHeight;
+        const columnWidth = 15; // Width of each character column
+        const maxColumns = Math.floor(windowWidth / columnWidth);
+
+        const characters = '01'; // Binary digits
+
+        // 1. Initial column generation
+        for (let i = 0; i < maxColumns; i++) {
+            const column = document.createElement('div');
+            column.className = 'digital-column';
+            column.style.left = `${i * columnWidth}px`;
+            
+            let digits = '';
+            const length = Math.floor(windowHeight / 14) * 2;
+            for (let j = 0; j < length; j++) {
+                digits += characters[Math.floor(Math.random() * characters.length)] + '\n';
+            }
+            column.textContent = digits;
+
+            // DURATION CHANGE: Slower speed (10 to 25 seconds) for reduced speed/better ambiance
+            const duration = Math.random() * 15 + 10; 
+            const delay = Math.random() * -duration;
+
+            column.style.animation = `rain ${duration}s linear ${delay}s infinite`;
+            container.appendChild(column);
+        }
+
+        // 2. Interactive Update Loop (makes the data stream "live")
+        const updateRain = () => {
+            const columns = document.querySelectorAll('.digital-column');
+            columns.forEach(column => {
+                let text = column.textContent;
+                // Randomly select one character position to swap
+                const pos = Math.floor(Math.random() * text.length);
+                const newChar = characters[Math.floor(Math.random() * characters.length)];
+                
+                // Only update the character if it's not a newline ('\n')
+                if (text[pos] !== '\n') {
+                    // Update the string by replacing the character at 'pos'
+                    text = text.substring(0, pos) + newChar + text.substring(pos + 1);
+                    column.textContent = text;
+                }
+            });
+        };
+        
+        // Run the update loop every 100 milliseconds
+        setInterval(updateRain, 100);
+
+        // 3. Horizontal Scroll Functionality for Arrows
+        const setupScrollButtons = (containerId, leftButtonId, rightButtonId) => {
+            const container = document.getElementById(containerId);
+            const leftButton = document.getElementById(leftButtonId);
+            const rightButton = document.getElementById(rightButtonId);
+            // Scroll amount set to roughly one card width plus spacing (300px + 24px)
+            const scrollAmount = 330; 
+
+            if (!container || !leftButton || !rightButton) return;
+
+            leftButton.addEventListener('click', () => {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            });
+
+            rightButton.addEventListener('click', () => {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            });
+        };
+
+        setupScrollButtons('technical-events-container', 'technical-scroll-left', 'technical-scroll-right');
+        setupScrollButtons('non-technical-events-container', 'non-technical-scroll-left', 'non-technical-scroll-right');
+    </script>
+</body>
+</html>
