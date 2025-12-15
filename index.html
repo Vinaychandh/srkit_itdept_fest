@@ -34,6 +34,7 @@
         
         .event-card {
             transition: all 0.3s ease-in-out;
+            cursor: pointer; /* Indicate it is clickable */
         }
 
         /* --- Ambient Spotlight Background Effect (High Opacity) --- */
@@ -41,11 +42,11 @@
             --mouse-x: 50%;
             --mouse-y: 50%;
             
-            /* Increased opacity to 0.5 for a much stronger, more visible blue glow */
+            /* Significantly increased opacity for a stronger, more visible blue glow */
             background: radial-gradient(
                 circle 900px at var(--mouse-x) var(--mouse-y),
-                rgba(66, 153, 225, 0.5) 0%, /* Significantly increased opacity to 0.5 */
-                rgba(255, 255, 255, 0) 70%   /* Adjusted fade out point */
+                rgba(66, 153, 225, 0.5) 0%, 
+                rgba(255, 255, 255, 0) 70%   
             ), #f9fafb; 
             background-attachment: fixed; 
             color: #1f2937; 
@@ -54,6 +55,43 @@
             position: relative; /* Needed for absolute positioning of animation */
             overflow-x: hidden; /* Prevent horizontal scroll due to animation */
         }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 1rem; /* rounded-xl */
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+
 
         /* --- Digital Rain Animation (0s and 1s) --- */
         .digital-rain-container {
@@ -113,20 +151,20 @@
                 <!-- SRKIT Logo and Branding -->
                 <div class="flex items-center space-x-2">
                     <!-- IMPORTANT: Replace the placeholder URL below with the actual SRKIT logo image URL -->
-                    <img src="https://srkit.in/images/flogo.png" alt="SRKIT Logo Placeholder" class="h-8 w-8 rounded-full border border-blue-600"/>
+                    <img src="https://srkit.edu.in/images/flogo.png" alt="SRKIT Logo Placeholder" class="h-8 w-8 rounded-full border border-blue-600"/>
                     <span class="text-lg font-extrabold text-gray-900 tracking-wide hidden sm:inline">SRKIT</span>
                     <span class="text-lg font-bold text-blue-600 tracking-wider">| IT FEST</span>
                 </div>
                 
-                <!-- Navigation Links (Reduced size) -->
-                <div class="flex space-x-3 sm:space-x-4 md:space-x-6">
-                    <a href="#technical" class="text-sm text-gray-700 hover:text-blue-600 font-medium px-1 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-3">
+                <!-- Navigation Links (SPACE REDUCED) -->
+                <div class="flex space-x-2 sm:space-x-3 md:space-x-4">
+                    <a href="#technical" class="text-xs sm:text-sm text-gray-700 hover:text-blue-600 font-medium px-2 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-2">
                         Technical
                     </a>
-                    <a href="#non-technical" class="text-sm text-gray-700 hover:text-blue-600 font-medium px-1 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-3">
+                    <a href="#non-technical" class="text-xs sm:text-sm text-gray-700 hover:text-blue-600 font-medium px-2 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-2">
                         Non-Technical
                     </a>
-                    <a href="#contact" class="text-sm text-gray-700 hover:text-blue-600 font-medium px-1 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-3">
+                    <a href="#contact" class="text-xs sm:text-sm text-gray-700 hover:text-blue-600 font-medium px-2 py-2 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-600 sm:px-2">
                         Contact
                     </a>
                 </div>
@@ -137,14 +175,14 @@
     <!-- Main Content Area --><div class="p-4 md:p-8 relative z-10">
         <header class="text-center mb-16 mt-4 max-w-7xl mx-auto">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 main-title-shadow">
-                Tech Fest 2K25
+                Tech NEXUS 2K25
             </h1>
             <p class="mt-4 text-xl text-gray-700">Department of INFORMATION TECHNOLOGY welcomes you</p>
         </header>
 
         <!-- Main Content Grid --><main class="max-w-7xl mx-auto space-y-20">
 
-            <!-- Technical Events Section --><section id="technical" class="pt-4">
+            <!-- Technical Events Section (DYNAMIC) --><section id="technical" class="pt-4">
                 <div class="flex justify-center mb-10">
                     <h2 class="inline-block text-xl sm:text-2xl font-extrabold text-blue-600 bg-white border border-blue-600 shadow-md px-8 py-3 rounded-full tracking-wider uppercase">
                         Technical Events
@@ -164,43 +202,14 @@
                         <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </button>
 
-                    <!-- Actual Scrollable Event Container -->
+                    <!-- Target for Dynamically Rendered Technical Event Cards -->
                     <div id="technical-events-container" class="flex space-x-6 overflow-x-auto pb-4 no-scrollbar scroll-smooth px-4 lg:justify-center">
-                        
-                        <!-- Event Card 1 -->
-                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
-                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
-                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Code Debugging Challenge</h3>
-                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Find the errors, fix the bugs, and race against the clock. Sharp analytical skills required!</p>
-                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
-                                Register
-                            </a>
-                        </div>
-
-                        <!-- Event Card 2 -->
-                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
-                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
-                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Web Design Hackathon</h3>
-                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">A 24-hour sprint to build a fully functional, aesthetic web application from scratch.</p>
-                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
-                                Register
-                            </a>
-                        </div>
-
-                        <!-- Event Card 3 -->
-                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
-                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
-                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">AI Quiz Bowl</h3>
-                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Test your knowledge on Machine Learning, Deep Learning, and current AI trends.</p>
-                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
-                                Register
-                            </a>
-                        </div>
+                        <!-- Cards will be injected here by JavaScript -->
                     </div>
                 </div>
             </section>
 
-            <!-- Non-Technical Events Section --><section id="non-technical" class="pt-4">
+            <!-- Non-Technical Events Section (DYNAMIC) --><section id="non-technical" class="pt-4">
                 <div class="flex justify-center mb-10">
                     <h2 class="inline-block text-xl sm:text-2xl font-extrabold text-blue-600 bg-white border border-blue-600 shadow-md px-8 py-3 rounded-full tracking-wider uppercase">
                         Non-Technical Events
@@ -220,59 +229,43 @@
                         <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </button>
 
-                    <!-- Actual Scrollable Event Container -->
+                    <!-- Target for Dynamically Rendered Non-Technical Event Cards -->
                     <div id="non-technical-events-container" class="flex space-x-6 overflow-x-auto pb-4 no-scrollbar scroll-smooth px-4 lg:justify-center">
-                        
-                        <!-- Event Card 4 -->
-                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
-                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
-                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">E-Sports Gaming Tournament</h3>
-                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Compete in popular titles (e.g., Valorant/BGMI) for bragging rights and prizes.</p>
-                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
-                                Register
-                            </a>
-                        </div>
-
-                        <!-- Event Card 5 -->
-                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
-                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
-                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Campus Lens Photography</h3>
-                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Capture the spirit of the campus or fest. Open to all skill levels with any camera.</p>
-                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
-                                Register
-                            </a>
-                        </div>
-
-                        <!-- Event Card 6 -->
-                        <!-- FIXED SIZE: h-[400px] and flex-shrink-0 added for uniform size -->
-                        <div class="group event-card bg-white p-6 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[400px] w-[300px] flex-shrink-0 hover:bg-gray-900 cursor-pointer">
-                            <h3 class="text-2xl font-semibold mb-3 text-gray-800 group-hover:text-white">Blind Coding Race</h3>
-                            <p class="text-gray-700 mb-4 flex-grow group-hover:text-gray-200">Type code without looking at the screen. A test of pure muscle memory and logic!</p>
-                            <a href="https://forms.gle/yp25dJ7cdctbHgyq5" target="_blank" class="register-button inline-block w-full text-center py-3 px-4 rounded-lg bg-blue-600 font-semibold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.98] active:bg-blue-800 hover:shadow-md hover:shadow-blue-400/50 mt-auto text-lg group-hover:bg-white group-hover:text-gray-900 group-hover:ring-2 group-hover:ring-blue-600">
-                                Register
-                            </a>
-                        </div>
+                        <!-- Cards will be injected here by JavaScript -->
                     </div>
                 </div>
             </section>
 
             <!-- Contact Information Section --><section id="contact" class="mt-12 p-8 bg-white rounded-xl shadow-xl border border-gray-100">
                 <h2 class="text-3xl font-bold mb-6 text-gray-800">Contact & Support</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-700">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-gray-700">
+                    
+                    <!-- Faculty Coordinator -->
                     <div>
-                        <h3 class="font-semibold text-xl text-gray-900 mb-2">Fest Coordinator</h3>
-                        <p>Prof. xxxx</p>
-                        <p>IT Department, 'A' block 4th floor</p>
+                        <h3 class="font-semibold text-xl text-gray-900 mb-2">Faculty Coordinator</h3>
+                        <p>M. Prasanthi</p>
+                        <p class="text-sm text-gray-500">IT Department, 'A' block 4th floor</p>
                     </div>
+
+                    <!-- Student Coordinator -->
+                    <div>
+                        <h3 class="font-semibold text-xl text-gray-900 mb-2">Student Coordinator</h3>
+                        <p>Saini Akash</p>
+                        <p class="text-sm text-gray-500">Student Lead, Fest Committee</p>
+                    </div>
+                    
+                    <!-- Email Us -->
                     <div>
                         <h3 class="font-semibold text-xl text-gray-900 mb-2">Email Us</h3>
                         <p>For event inquiries:</p>
-                        <a href="mailto:srk.itdept@gmail.com" class="text-gray-600 hover:text-blue-600 hover:underline font-mono">srk.itdept@gmail.com</a>
+                        <a href="mailto:itsrk23x@gmail.com" class="text-gray-600 hover:text-blue-600 hover:underline font-mono">itsrk23x@gmail.com</a>
                     </div>
+                    
+                    <!-- Call Support -->
                     <div>
                         <h3 class="font-semibold text-xl text-gray-900 mb-2">Call Support</h3>
                         <p>Student Help Desk:</p>
-                        <p class="font-mono text-lg">xxxxxxx</p>
+                        <p class="font-mono text-lg">9573783717</p>
                     </div>
                 </div>
             </section>
@@ -280,13 +273,164 @@
         </main>
     </div>
 
+    <!-- Event Detail Modal (Hidden by default) -->
+    <div id="event-modal" class="modal-overlay">
+        <div class="modal-content w-full md:w-2/3 lg:w-1/2 p-6 md:p-10 shadow-2xl">
+            <div class="flex justify-between items-start mb-6 border-b pb-3">
+                <h3 id="modal-title" class="text-3xl font-extrabold text-gray-900"></h3>
+                <button id="modal-close" class="text-gray-400 hover:text-gray-700 transition duration-150 p-2 -mr-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <p id="modal-category" class="text-sm font-semibold mb-4 px-3 py-1 inline-block rounded-full text-white"></p>
+
+            <p id="modal-details" class="text-gray-700 text-base mb-8 leading-normal"></p>
+
+            <!-- Registration Container (ID for dynamic content) -->
+            <div id="modal-registration-container">
+                <!-- Content injected by JS -->
+            </div>
+            
+        </div>
+    </div>
+
+
     <!-- Footer --><footer class="text-center mt-12 py-6 border-t border-gray-300 bg-white relative z-10">
         <p class="text-gray-600 text-sm">&copy; <span id="year"></span> IT Department Fest. All rights reserved.</p>
     </footer>
 
     <script>
-        // Set the current year in the footer
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // --- Event Data Configuration ---
+        const allEvents = {
+            technical: [
+                { id: 'pp', title: 'Power Point Presentation', icon: '📊', color: 'bg-blue-600', shortDesc: 'Present complex IT concepts using engaging visual slides.', details: 'Create and present a compelling slideshow on any technical topic (AI, Cloud, Security). Judging based on content, clarity, design, and presentation skills.', link: 'https://forms.gle/Ec9NYR8ekpqNA6x76' },
+                { id: 'pos', title: 'Poster Presentation', icon: '🖼️', color: 'bg-green-600', shortDesc: 'Visually summarize your projects for quick knowledge sharing.', details: 'Design informative posters covering technical concepts or project implementations. Judging based on clarity, design, and technical depth.', link: 'https://forms.gle/kJDT2qfJvbegoEG18' },
+                { id: 'proj', title: 'Project Expo', icon: '💡', color: 'bg-yellow-600', shortDesc: 'Exhibit your innovative hardware and software projects.', details: 'Demonstrate your working projects to industry experts and peers. Cash prizes for the most innovative and functional solutions.', link: 'https://forms.gle/9vMu8Yy2krxZVV7M6' },
+                { id: 'code', title: 'Code Tantra', icon: '💻', color: 'bg-red-600', shortDesc: 'The ultimate coding QUIZ.', details: 'A high-pressure coding contest. Solve complex algorithmic problems under strict time constraints.', link: 'https://forms.gle/o25auishJkxdCXvo9' },
+            ],
+            nonTechnical: [
+                { id: 'mm', title: 'Movie Maniac', icon: '🎬', color: 'bg-purple-600', shortDesc: 'Test your knowledge on classic and modern cinema.', details: 'A fun quiz event covering Hollywood, Bollywood, and regional cinema trivia. Rounds include audio-visual clips, rapid fire, and identification of movie quotes.', link: 'offline' }, // Updated link to 'offline'
+                { id: 'lc', title: 'Ludo Clash', icon: '🎲', color: 'bg-pink-600', shortDesc: 'The ultimate offline board game battle.', details: 'Compete in a knockout Ludo tournament. Fun, strategy, and pure luck! Single-player and team entries are accepted. Standard Ludo rules apply.', link: 'offline' }, // Updated link to 'offline'
+                { id: 'th', title: 'Tambola Housie', icon: '🎟️', color: 'bg-teal-600', shortDesc: 'Classic game of chance with exciting prizes.', details: 'Enjoy the timeless game of Tambola (Indian Bingo). Early five, corners, lines, and full house prizes are up for grabs! Tickets available at the venue.', link: 'offline' }, // Updated link to 'offline'
+            ]
+        };
+
+        // Get modal elements
+        const modal = document.getElementById('event-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalCategory = document.getElementById('modal-category');
+        const modalDetails = document.getElementById('modal-details');
+        const modalRegistrationContainer = document.getElementById('modal-registration-container'); // New ID
+        const modalClose = document.getElementById('modal-close');
+
+        // --- Core Functions ---
+
+        // Function to render the initial thumbnail cards
+        function renderCards(events, containerId, category) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = events.map(event => `
+                <div class="event-card group bg-white p-4 rounded-xl shadow-lg transition duration-300 ease-in-out transform hover:scale-[1.03] hover:shadow-2xl hover:shadow-gray-400/60 border border-gray-100 flex flex-col h-[200px] w-[250px] sm:w-[300px] flex-shrink-0 hover:bg-gray-50" data-event-id="${event.id}" data-category="${category}">
+                    
+                    <!-- Thumbnail Area -->
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="p-3 rounded-full ${event.color} transition duration-300 group-hover:shadow-lg group-hover:shadow-blue-300/50">
+                            <span class="text-3xl">${event.icon}</span>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-gray-800 group-hover:text-blue-600">${event.title}</h3>
+                    </div>
+
+                    <!-- Short Description -->
+                    <p class="text-gray-600 text-sm flex-grow">
+                        ${event.shortDesc}
+                    </p>
+
+                    <!-- Click Indicator -->
+                    <div class="mt-4 text-xs font-bold text-blue-500 flex justify-end items-center">
+                        View Details 
+                        <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click listeners to the dynamically created cards
+            container.querySelectorAll('.event-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const eventId = card.getAttribute('data-event-id');
+                    const eventCategory = card.getAttribute('data-category');
+                    const eventData = allEvents[eventCategory].find(e => e.id === eventId);
+                    if (eventData) {
+                        openModal(eventData, eventCategory);
+                    }
+                });
+            });
+        }
+
+        // Function to open the detail modal
+        function openModal(eventData, category) {
+            modalTitle.textContent = eventData.title;
+            modalDetails.textContent = eventData.details;
+            
+            // Set Category Tag
+            modalCategory.textContent = category === 'technical' ? 'Technical Event' : 'Non-Technical Event';
+            modalCategory.className = `text-sm font-semibold mb-4 px-3 py-1 inline-block rounded-full text-white ${category === 'technical' ? 'bg-blue-600' : 'bg-purple-600'}`;
+
+            // Conditional rendering for registration based on category
+            if (category === 'technical') {
+                modalRegistrationContainer.innerHTML = `
+                    <a id="modal-register-link" href="${eventData.link}" target="_blank" class="register-button inline-block w-full text-center py-4 px-6 rounded-lg bg-blue-600 font-bold text-white transition duration-200 ease-in-out hover:bg-blue-700 active:scale-[0.99] active:bg-blue-800 hover:shadow-lg hover:shadow-blue-400/50 text-xl">
+                        Register Now
+                    </a>
+                    <p class="text-center text-sm text-gray-500 mt-3">Link opens in a new tab.</p>
+                `;
+            } else {
+                // Non-technical events show offline registration message
+                modalRegistrationContainer.innerHTML = `
+                    <div class="p-4 bg-purple-100 border border-purple-400 text-purple-800 rounded-lg text-center">
+                        <p class="text-xl font-bold mb-1">Offline Registration</p>
+                        <p class="text-base">Please register at the event venue on the day of the fest.</p>
+                    </div>
+                `;
+            }
+
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling the background
+        }
+
+        // Function to close the detail modal
+        function closeModal() {
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners for modal close
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            // Close if clicking on the overlay, not the content
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+
+        // --- Initialization on Load ---
+        window.onload = function () {
+            // Set the current year in the footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Render all cards
+            renderCards(allEvents.technical, 'technical-events-container', 'technical');
+            renderCards(allEvents.nonTechnical, 'non-technical-events-container', 'nonTechnical');
+
+            // Setup scroll buttons for dynamic content
+            setupScrollButtons('technical-events-container', 'technical-scroll-left', 'technical-scroll-right');
+            setupScrollButtons('non-technical-events-container', 'non-technical-scroll-left', 'non-technical-scroll-right');
+        };
+
+
+        // --- Utility Functions (Rain and Scroll) ---
 
         // JavaScript for Ambient Spotlight Effect
         document.addEventListener('mousemove', (e) => {
@@ -365,9 +509,6 @@
                 container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
             });
         };
-
-        setupScrollButtons('technical-events-container', 'technical-scroll-left', 'technical-scroll-right');
-        setupScrollButtons('non-technical-events-container', 'non-technical-scroll-left', 'non-technical-scroll-right');
     </script>
 </body>
 </html>
