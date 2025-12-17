@@ -28,6 +28,32 @@
             text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
         }
         
+        /* --- RAINBOW GRADIENT TEXT STYLE FOR TECHSPARK 2025 --- */
+        .rainbow-text {
+            /* Fallback color */
+            color: #1f2937;
+            
+            /* Apply the rainbow gradient background */
+            background: linear-gradient(
+                to right, 
+                #f82d2d, /* Red-500 */
+                #ee7722, /* Orange-500 */
+                #c9d615, /* Amber-500 */
+                #16c557, /* Green-500 */
+                #08caec, /* Cyan-500 */
+                #3b82f6, /* Blue-500 */
+                #993af1  /* Violet-500 */
+            );
+            
+            /* Clip the background to the text (Webkit/Blink) */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* Clip the background to the text (Standard) */
+            background-clip: text;
+            color: transparent;
+        }
+
         .register-button {
             transition: all 0.15s ease-in-out;
         }
@@ -93,6 +119,16 @@
         }
 
         /* Apply better list styling inside the modal */
+        /* Updated this to style the heading for rules/regulations */
+        #modal-rules-heading {
+             font-size: 1.25rem; /* text-xl */
+             font-weight: 700; /* font-bold */
+             color: #1f2937; /* Dark gray */
+             margin-bottom: 0.75rem; /* mb-3 */
+             padding-bottom: 0.25rem; /* pb-1 */
+             border-bottom: 2px solid #60a5fa; /* Blue-400 border */
+        }
+        
         #modal-details ul {
             list-style-type: disc;
             margin-left: 1.5rem;
@@ -186,10 +222,11 @@
 
     <!-- Main Content Area --><div class="p-4 md:p-8 relative z-10">
         <header class="text-center mb-16 mt-4 max-w-7xl mx-auto">
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 main-title-shadow">
-                SRK TECHSPARK 2K25
+            <!-- UPDATED: Added rainbow-text class for gradient -->
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight rainbow-text main-title-shadow">
+                TECHSPARK 2025
             </h1>
-            <p class="mt-4 text-xl text-gray-700">Department of INFORMATION TECHNOLOGY welcomes you</p>
+            <p class="mt-4 text-xl text-gray-700">Department of <b>INFORMATION TECHNOLOGY</b> welcomes you</p>
         </header>
 
         <!-- Main Content Grid --><main class="max-w-7xl mx-auto space-y-20">
@@ -255,7 +292,7 @@
                     <!-- Faculty Coordinator -->
                     <div>
                         <h3 class="font-semibold text-xl text-gray-900 mb-2">Faculty Coordinator</h3>
-                        <p>M. Prasanthi</p>
+                        <p>Mrs. M. Prasanthi (Assistant prof.)</p>
                         <p class="text-sm text-gray-500">IT Department, 'A' block 4th floor</p>
                     </div>
 
@@ -297,6 +334,9 @@
             
             <p id="modal-category" class="text-sm font-semibold mb-4 px-3 py-1 inline-block rounded-full text-white"></p>
 
+            <!-- NEW: Rules and Regulations heading added before the details -->
+            <h4 id="modal-rules-heading">Rules and Regulations</h4>
+
             <!-- IMPORTANT: Modal details will now be rendered inside this div as an UL/LI list -->
             <div id="modal-details" class="text-gray-700 text-base mb-8 leading-normal"></div>
 
@@ -319,7 +359,7 @@
             technical: [
                 { 
                     id: 'pp', 
-                    title: 'Power Point Presentation', 
+                    title: 'Paper Presentation', 
                     icon: '📊', 
                     color: 'bg-blue-600', 
                     shortDesc: 'Present complex IT concepts using engaging visual slides.', 
@@ -482,7 +522,7 @@
         function openModal(eventData, category) {
             modalTitle.textContent = eventData.title;
             
-            // --- UPDATE: Render details as an unordered list ---
+            // --- RENDER DETAILS: Use the existing logic ---
             const bulletPointsHtml = `<ul>${eventData.details.map(detail => `<li>${detail}</li>`).join('')}</ul>`;
             modalDetails.innerHTML = bulletPointsHtml;
             // ----------------------------------------------------
