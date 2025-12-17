@@ -92,6 +92,18 @@
             transform: scale(1);
         }
 
+        /* Apply better list styling inside the modal */
+        #modal-details ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            padding-left: 0.5rem;
+            line-height: 1.75; /* space between bullets */
+        }
+        #modal-details ul li {
+            margin-bottom: 0.5rem;
+            color: #374151; /* Darker text for details */
+        }
+
 
         /* --- Digital Rain Animation (0s and 1s) --- */
         .digital-rain-container {
@@ -285,7 +297,8 @@
             
             <p id="modal-category" class="text-sm font-semibold mb-4 px-3 py-1 inline-block rounded-full text-white"></p>
 
-            <p id="modal-details" class="text-gray-700 text-base mb-8 leading-normal"></p>
+            <!-- IMPORTANT: Modal details will now be rendered inside this div as an UL/LI list -->
+            <div id="modal-details" class="text-gray-700 text-base mb-8 leading-normal"></div>
 
             <!-- Registration Container (ID for dynamic content) -->
             <div id="modal-registration-container">
@@ -304,15 +317,112 @@
         // --- Event Data Configuration ---
         const allEvents = {
             technical: [
-                { id: 'pp', title: 'Power Point Presentation', icon: '📊', color: 'bg-blue-600', shortDesc: 'Present complex IT concepts using engaging visual slides.', details: 'Maximum of 2 members in a team. At least 8 slides and maximum of 12 slides. Must attend with your soft copy at Venue before the event starts (10:00 am). Time limit : 7-8 mins. Registration fee 100/- per head (if team has 2 members then you have to pay 200/-). last date for online registration is 28 dec 12:00 am', link: 'https://forms.gle/Ec9NYR8ekpqNA6x76' },
-                { id: 'pos', title: 'Poster Presentation', icon: '🖼️', color: 'bg-green-600', shortDesc: 'Visually summarize your projects for quick knowledge sharing.', details: 'Maximum of 1 member. Registration fee 50/- per head. Must bring your own poster prepared at home. No time will be given for poster preparation. Judges Decision will be Final', link: 'https://forms.gle/kJDT2qfJvbegoEG18' },
-                { id: 'proj', title: 'Project Expo', icon: '💡', color: 'bg-yellow-600', shortDesc: 'Exhibit your innovative hardware and software projects.', details: 'Maximum of 1 member. Registration fee 50/- per head. Must bring your own project prepared at home. No time will be given for project preparation. Judges Decision will be Final. Bring soft copy of your Project and 2 pages hardcopy with project details', link: 'https://forms.gle/9vMu8Yy2krxZVV7M6' },
-                { id: 'code', title: 'Code Tantra', icon: '💻', color: 'bg-red-600', shortDesc: 'The ultimate coding QUIZ.', details: 'Maximum of 1 member. Registration fee 50/- per head. 3 rounds of Coding quiz. Covers Basic to Advance topic. Judges Decision will be Final', link: 'https://forms.gle/o25auishJkxdCXvo9' },
+                { 
+                    id: 'pp', 
+                    title: 'Power Point Presentation', 
+                    icon: '📊', 
+                    color: 'bg-blue-600', 
+                    shortDesc: 'Present complex IT concepts using engaging visual slides.', 
+                    details: [
+                        'Maximum of 2 members in a team.',
+                        'At least 8 slides and maximum of 12 slides.',
+                        'Must attend with your soft copy at Venue before the event starts (10:00 am).',
+                        'Time limit: 7-8 minutes.',
+                        'Registration fee 100/- per head (if team has 2 members then you have to pay 200/-).',
+                        'Last date for online registration is 28 Dec, 12:00 am.'
+                    ], 
+                    link: 'https://forms.gle/Ec9NYR8ekpqNA6x76' 
+                },
+                { 
+                    id: 'pos', 
+                    title: 'Poster Presentation', 
+                    icon: '🖼️', 
+                    color: 'bg-green-600', 
+                    shortDesc: 'Visually summarize your projects for quick knowledge sharing.', 
+                    details: [
+                        'Maximum of 1 member.',
+                        'Registration fee 50/- per head.',
+                        'Must bring your own poster prepared at home.',
+                        'No time will be given for poster preparation.',
+                        'Judge\'s Decision will be Final.'
+                    ], 
+                    link: 'https://forms.gle/kJDT2qfJvbegoEG18' 
+                },
+                { 
+                    id: 'proj', 
+                    title: 'Project Expo', 
+                    icon: '💡', 
+                    color: 'bg-yellow-600', 
+                    shortDesc: 'Exhibit your innovative hardware and software projects.', 
+                    details: [
+                        'Maximum of 1 member.',
+                        'Registration fee 50/- per head.',
+                        'Must bring your own project prepared at home.',
+                        'No time will be given for project preparation.',
+                        'Judge\'s Decision will be Final.',
+                        'Bring soft copy of your Project and 2 pages hardcopy with project details.'
+                    ], 
+                    link: 'https://forms.gle/9vMu8Yy2krxZVV7M6' 
+                },
+                { 
+                    id: 'code', 
+                    title: 'Code Tantra', 
+                    icon: '💻', 
+                    color: 'bg-red-600', 
+                    shortDesc: 'The ultimate coding QUIZ.', 
+                    details: [
+                        'Maximum of 1 member.',
+                        'Registration fee 50/- per head.',
+                        '3 rounds of Coding quiz.',
+                        'Covers Basic to Advance topics.',
+                        'Judge\'s Decision will be Final.'
+                    ], 
+                    link: 'https://forms.gle/o25auishJkxdCXvo9' 
+                },
             ],
             nonTechnical: [
-                { id: 'mm', title: 'Movie Maniac', icon: '🎬', color: 'bg-purple-600', shortDesc: 'Test your knowledge on classic and modern cinema.', details: 'Per head 50/-. fun quiz event covering Hollywood, Bollywood, and regional cinema trivia. Rounds include audio-visual clips, rapid fire, and identification of movie quotes.', link: 'offline' }, // Updated link to 'offline'
-                { id: 'lc', title: 'Ludo Clash', icon: '🎲', color: 'bg-pink-600', shortDesc: 'The ultimate offline board game battle.', details: 'Per head 50/-. Compete in a knockout Ludo tournament. Fun, strategy, and pure luck! Single-player and team entries are accepted. Standard Ludo rules apply.', link: 'offline' }, // Updated link to 'offline'
-                { id: 'th', title: 'Tambola Housie', icon: '🎟️', color: 'bg-teal-600', shortDesc: 'Classic game of chance with exciting prizes.', details: 'Per head 50/-. Enjoy the timeless game of Tambola (Indian Bingo). Early five, corners, lines, and full house prizes are up for grabs! Tickets available at the venue.', link: 'offline' }, // Updated link to 'offline'
+                { 
+                    id: 'mm', 
+                    title: 'Movie Maniac', 
+                    icon: '🎬', 
+                    color: 'bg-purple-600', 
+                    shortDesc: 'Test your knowledge on classic and modern cinema.', 
+                    details: [
+                        'Per head 50/-.',
+                        'Fun quiz event covering Hollywood, Bollywood, and regional cinema trivia.',
+                        'Rounds include audio-visual clips, rapid fire, and identification of movie quotes.'
+                    ], 
+                    link: 'offline' 
+                }, 
+                { 
+                    id: 'lc', 
+                    title: 'Ludo Clash', 
+                    icon: '🎲', 
+                    color: 'bg-pink-600', 
+                    shortDesc: 'The ultimate offline board game battle.', 
+                    details: [
+                        'Per head 50/-.',
+                        'Compete in a knockout Ludo tournament.',
+                        'Fun, strategy, and pure luck!',
+                        'Single-player and team entries are accepted.',
+                        'Standard Ludo rules apply.'
+                    ], 
+                    link: 'offline' 
+                }, 
+                { 
+                    id: 'th', 
+                    title: 'Tambola Housie', 
+                    icon: '🎟️', 
+                    color: 'bg-teal-600', 
+                    shortDesc: 'Classic game of chance with exciting prizes.', 
+                    details: [
+                        'Per head 50/-.',
+                        'Enjoy the timeless game of Tambola (Indian Bingo).',
+                        'Early five, corners, lines, and full house prizes are up for grabs!',
+                        'Tickets available at the venue.'
+                    ], 
+                    link: 'offline' 
+                }, 
             ]
         };
 
@@ -320,8 +430,8 @@
         const modal = document.getElementById('event-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalCategory = document.getElementById('modal-category');
-        const modalDetails = document.getElementById('modal-details');
-        const modalRegistrationContainer = document.getElementById('modal-registration-container'); // New ID
+        const modalDetails = document.getElementById('modal-details'); // This is now a DIV
+        const modalRegistrationContainer = document.getElementById('modal-registration-container');
         const modalClose = document.getElementById('modal-close');
 
         // --- Core Functions ---
@@ -371,7 +481,11 @@
         // Function to open the detail modal
         function openModal(eventData, category) {
             modalTitle.textContent = eventData.title;
-            modalDetails.textContent = eventData.details;
+            
+            // --- UPDATE: Render details as an unordered list ---
+            const bulletPointsHtml = `<ul>${eventData.details.map(detail => `<li>${detail}</li>`).join('')}</ul>`;
+            modalDetails.innerHTML = bulletPointsHtml;
+            // ----------------------------------------------------
             
             // Set Category Tag
             modalCategory.textContent = category === 'technical' ? 'Technical Event' : 'Non-Technical Event';
